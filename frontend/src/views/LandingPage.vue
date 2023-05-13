@@ -1,5 +1,5 @@
 <template>
-  <NavBarGuest />
+  <NavBar />
   <v-container fluid>
     <v-main style="min-height: 300px">
       <v-flex xs12 class="text-h1 text-center" mt-5>
@@ -30,13 +30,13 @@
 <script>
 import { defineComponent } from "vue";
 
-import NavBarGuest from "../components/NavBarGuest.vue";
+import NavBar from "../components/NavBar.vue";
 
 export default defineComponent({
   name: "LandingPage",
 
   components: {
-    NavBarGuest,
+    NavBar,
   },
 });
 </script>
