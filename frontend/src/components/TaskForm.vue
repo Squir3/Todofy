@@ -1,15 +1,9 @@
 <template>
   <div>
     <v-form ref="form" @submit.prevent="submitForm">
-      <v-text-field
-        v-model="name"
-        label="Name"
-        :rules="formRules"
-        required
-      ></v-text-field>
+      <v-text-field v-model="name" label="Name" required></v-text-field>
       <v-textarea
         v-model="description"
-        :rules="formRules"
         label="Description"
         required
       ></v-textarea>
@@ -29,8 +23,6 @@ export default {
   },
   data() {
     return {
-      valid: true,
-      formRules: [(v) => !!v || "Field is required"],
       name: "",
       description: "",
       completed: false,
@@ -45,15 +37,6 @@ export default {
     }
   },
   methods: {
-    validate() {
-      this.$refs.form.validate();
-    },
-    validateAndSubmit() {
-      this.validate();
-      if (this.$refs.form.valid) {
-        this.submitForm();
-      }
-    },
     async fetchTasks() {
       await axios.get(`${server.baseURL}/tasks/`).then((response) => {
         this.tasks = response.data;
@@ -72,7 +55,6 @@ export default {
           await axios.post(`${server.baseURL}/tasks/`, data);
         }
         this.$emit("submit", data);
-        this.$emit("fetch-tasks");
       } catch (error) {
         console.log(error.response);
       }

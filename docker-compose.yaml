@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+  todofy_nginx:
+    container_name: todofy_nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - todofy_backend
+      - todofy_frontend
+  todofy_backend:
+    container_name: todofy_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - todofy_db
+  todofy_frontend:
+    container_name: todofy_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+  todofy_db:
+    container_name: todofy_db
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pracka
+      MONGO_INITDB_DATABASE: todofy
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
