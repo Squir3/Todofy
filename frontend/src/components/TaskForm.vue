@@ -7,7 +7,7 @@
         label="Description"
         required
       ></v-textarea>
-      <v-checkbox v-model="completed" label="Completed"></v-checkbox>
+      <!-- <v-checkbox v-model="completed" label="Completed"></v-checkbox> -->
       <v-btn type="submit" color="teal-darken-1">Save</v-btn>
     </v-form>
   </div>

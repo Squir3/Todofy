@@ -1,13 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { User } from 'src/users/schemas/user.schema';
-
+import { Document, Types } from 'mongoose';
 export type TaskDocument = Task & Document;
 
 @Schema()
 export class Task {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  user_id: Types.ObjectId;
+
   @Prop({ required: true })
   name: string;
 

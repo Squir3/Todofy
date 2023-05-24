@@ -1,6 +1,6 @@
 <template>
   <NavBar />
-  <h1 class="text-center mt-4">Login</h1>
+  <h1 class="text-center mt-4">Log in</h1>
   <div class="d-flex align-center justify-center" style="height: 50vh">
     <v-sheet width="400" class="mx-auto">
       <v-form ref="form" @submit.prevent="login">
@@ -27,7 +27,7 @@
         ></v-text-field>
 
         <v-btn type="submit" color="blue-darken-4" block class="mt-2"
-          >Login</v-btn
+          >Log in</v-btn
         >
       </v-form>
       <div class="mt-2">
