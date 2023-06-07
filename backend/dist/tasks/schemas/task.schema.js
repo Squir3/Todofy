@@ -16,7 +16,7 @@ let Task = class Task {
 };
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'User' }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
+    __metadata("design:type", String)
 ], Task.prototype, "user_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),

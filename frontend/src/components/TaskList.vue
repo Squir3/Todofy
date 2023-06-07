@@ -30,6 +30,21 @@
           </tr>
         </tbody>
       </v-table>
+      <!-- Delete Confirmation Dialog -->
+      <v-dialog v-model="deleteConfirmation" max-width="500px">
+        <v-card>
+          <v-card-title>Delete Task</v-card-title>
+          <v-card-text>
+            Are you sure you want to delete the task "{{
+              selectedTaskToDelete?.name
+            }}"?
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="red" text @click="cancelDeleteTask">Cancel</v-btn>
+            <v-btn color="green" text @click="confirmDeleteTask">Delete</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </v-container>
 </template>
@@ -43,6 +58,8 @@ export default {
   data() {
     return {
       tasks: [],
+      deleteConfirmation: false,
+      selectedTaskToDelete: null,
     };
   },
   async created() {
@@ -57,12 +74,29 @@ export default {
         console.error(error);
       }
     },
+    addNewTask(newTask) {
+      this.tasks.push(newTask);
+    },
     editTask(task) {
       this.$emit("edit-task", task);
     },
     async deleteTask(task) {
-      await axios.delete(`${server.baseURL}/tasks/${task._id}`);
-      await this.fetchTasks();
+      this.selectedTaskToDelete = task;
+      this.deleteConfirmation = true;
+    },
+    async confirmDeleteTask() {
+      const taskId = this.selectedTaskToDelete._id;
+      try {
+        await axios.delete(`${server.baseURL}/tasks/${taskId}`);
+        await this.fetchTasks();
+      } catch (error) {
+        console.error(error);
+      }
+      this.cancelDeleteTask();
+    },
+    cancelDeleteTask() {
+      this.deleteConfirmation = false;
+      this.selectedTaskToDelete = null;
     },
   },
 };

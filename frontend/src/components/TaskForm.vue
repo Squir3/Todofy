@@ -7,7 +7,11 @@
         label="Description"
         required
       ></v-textarea>
-      <!-- <v-checkbox v-model="completed" label="Completed"></v-checkbox> -->
+      <template v-if="task">
+        <!-- Warunek sprawdzający, czy istnieje zadanie -->
+        <v-checkbox v-model="completed" label="Completed"></v-checkbox>
+        <!-- Checkbox w trybie edycji -->
+      </template>
       <v-btn type="submit" color="teal-darken-1">Save</v-btn>
     </v-form>
   </div>
@@ -52,7 +56,8 @@ export default {
         if (this.task) {
           await axios.put(`${server.baseURL}/tasks/${this.task._id}`, data);
         } else {
-          await axios.post(`${server.baseURL}/tasks/`, data);
+          const response = await axios.post(`${server.baseURL}/tasks/`, data);
+          this.$emit("submit", response.data); // Emitowanie zdarzenia z nowym zadaniem
         }
         this.$emit("submit", data);
       } catch (error) {

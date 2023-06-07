@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getServerRunning(): string {
+    return 'Aplikacja do tworzenia listy zadan';
   }
 }

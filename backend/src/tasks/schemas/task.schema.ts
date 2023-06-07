@@ -5,7 +5,7 @@ export type TaskDocument = Task & Document;
 @Schema()
 export class Task {
   @Prop({ type: Types.ObjectId, ref: 'User' })
-  user_id: Types.ObjectId;
+  user_id: string;
 
   @Prop({ required: true })
   name: string;

@@ -25,7 +25,7 @@
 import { Document, Types } from 'mongoose';
 export type TaskDocument = Task & Document;
 export declare class Task {
-    user_id: Types.ObjectId;
+    user_id: string;
     name: string;
     description: string;
     completed: boolean;

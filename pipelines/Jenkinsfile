@@ -1,0 +1,38 @@
+def remote = [name:'ubuntu-srv', host:'172.30.252.209', user:'root', password: '123456789', allowAnyHosts: true, port: 22, pty: true]
+pipeline {
+    agent any
+
+    stages {
+        stage('NestJS test') {
+            steps {
+                echo 'Test NestJS project'
+                sshCommand remote: remote, command: "source ~/.nvm/nvm.sh && cd /var/www/app/Todofy/backend &&  npm run test"
+            }
+        }
+        stage('Success - copy nest and vue folder') {
+            steps {
+                echo 'Copy nest and vue folders'
+                sshCommand remote: remote, command: "rm -rf /var/www/app_prod/Todofy/backend  && rm -rf /var/www/app_prod/Todofy/frontend"
+                sshCommand remote: remote, command: "mkdir -p /var/www/app_prod/Todofy"
+                sshCommand remote: remote, command: "mkdir -p /var/www/app_prod/Todofy"
+                sshCommand remote: remote, command: "cp -r /var/www/app/Todofy/backend /var/www/app_prod/Todofy"
+                sshCommand remote: remote, command: "cp -r /var/www/app/Todofy/frontend /var/www/app_prod/Todofy"
+            }
+        }
+        stage('Building prod environment') {
+            steps {
+                echo 'Building prod environment'
+                sshCommand remote: remote, command: "source ~/.nvm/nvm.sh && cd /var/www/app_prod/Todofy/backend &&  npm install && npm run build"
+                sshCommand remote: remote, command: "source ~/.nvm/nvm.sh && cd /var/www/app_prod/Todofy/frontend &&  npm install && npm run build"
+               
+            }
+        }
+        stage('Start Nest') {
+            steps {
+                echo 'Start Nest'
+                 sshCommand remote: remote, command: "source ~/.nvm/nvm.sh && cd /var/www/app_prod/Todofy/backend/dist && pm2 start main.js"
+            }
+        }
+    }
+}
+
