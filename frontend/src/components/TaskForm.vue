@@ -37,15 +37,9 @@ export default {
       this.name = this.task.name;
       this.description = this.task.description;
       this.completed = this.task.completed;
-      this.fetchTasks();
     }
   },
   methods: {
-    async fetchTasks() {
-      await axios.get(`${server.baseURL}/tasks/`).then((response) => {
-        this.tasks = response.data;
-      });
-    },
     async submitForm() {
       const data = {
         name: this.name,
@@ -56,10 +50,9 @@ export default {
         if (this.task) {
           await axios.put(`${server.baseURL}/tasks/${this.task._id}`, data);
         } else {
-          const response = await axios.post(`${server.baseURL}/tasks/`, data);
-          this.$emit("submit", response.data); // Emitowanie zdarzenia z nowym zadaniem
+          await axios.post(`${server.baseURL}/tasks/`, data);
         }
-        this.$emit("submit", data);
+        this.$emit("submit");
       } catch (error) {
         console.log(error.response);
       }

@@ -63,7 +63,7 @@ export default {
     };
   },
   async created() {
-    this.fetchTasks();
+    await this.fetchTasks();
   },
   methods: {
     async fetchTasks() {
@@ -88,7 +88,7 @@ export default {
       const taskId = this.selectedTaskToDelete._id;
       try {
         await axios.delete(`${server.baseURL}/tasks/${taskId}`);
-        await this.fetchTasks();
+        this.fetchTasks();
       } catch (error) {
         console.error(error);
       }

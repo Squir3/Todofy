@@ -10,7 +10,7 @@
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <TaskList @edit-task="editTask" />
+    <TaskList @edit-task="editTask" @fetch-tasks="fetchTasks" />
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title>
@@ -19,8 +19,8 @@
         <v-card-text>
           <TaskForm
             :task="selectedTask"
-            @fetchTasks="fetchTasks"
             @submit="closeDialog"
+            @fetch-tasks="fetchTasks"
           />
         </v-card-text>
       </v-card>
@@ -72,6 +72,7 @@ export default {
     closeDialog() {
       this.dialog = false;
       this.selectedTask = null;
+      this.fetchTasks();
     },
   },
 };
